@@ -16,13 +16,13 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('user_id')->unsigned()->index();
-            $table->bigInteger('category_id')->unsigned()->index();
+            $table->unsignedBigInteger('user_id'); //外部キー（他のテーブルのIDを参照している）
+            $table->unsignedBigInteger('category_id'); //外部キー
             $table->string('title')->nullable();
             $table->text('content')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }
