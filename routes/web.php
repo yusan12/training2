@@ -17,8 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/', 'PostController@index')->name('posts.index');
+Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/posts', 'PostController')->except([
-    'index'
-    ]);
+Route::resource('posts', 'PostController');
