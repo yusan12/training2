@@ -26,7 +26,7 @@
                             </h5>
 
                             <p class="card-text">{{ $post->content }}</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="{{ route('posts.show',$post->id) }}" class="btn btn-primary">詳細</a>
                           </div>
                         </div>
                     @endforeach
