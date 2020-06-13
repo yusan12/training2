@@ -28,6 +28,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function posts(){
+        // 投稿は一つのカテゴリーに属する
+        return $this->hasMany(\App\Post::class,'user_id', 'id');
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
