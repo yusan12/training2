@@ -14,4 +14,9 @@ class Comment extends Model
     protected $fillable = [
         'user_id', 'post_id', 'comment',
     ];
+
+    public function user(){
+        // 投稿は一つのカテゴリーに属する
+        return $this->belongsTo(\App\User::class,'user_id');
+    }
 }

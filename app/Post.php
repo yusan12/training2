@@ -19,4 +19,9 @@ class Post extends Model
         // 投稿は一つのカテゴリーに属する
         return $this->belongsTo(\App\User::class,'user_id');
     }
+
+    public function comments(){
+        // 投稿は一つのカテゴリーに属する
+        return $this->hasMany(\App\Comment::class,'post_id', 'id');
+    }
 }
