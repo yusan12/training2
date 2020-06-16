@@ -24,6 +24,10 @@
     </div>
 </div>
 <div class="card-header">Board</div>
+
+@isset($search_result)
+    <h5 class="card-title">{{ $search_result }}</h5>
+@endisset
 <div class="card-body">
     @if (session('status'))
         <div class="alert alert-success" role="alert">
@@ -51,6 +55,14 @@
             </div>
         @endforeach
 
-        {{ $posts->links() }}
+
+@if(isset($category_id))
+        {{ $posts->appends(['category_id' => $category_id])->links() }}
+@else
+    {{ $posts->links() }}
+@endif
+
+
+
 </div>
 @endsection

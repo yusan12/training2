@@ -22,7 +22,10 @@ class PostController extends Controller
             $posts = Post::latest()->where('category_id', $q['category_id'])->paginate(5);
             $posts->load('category', 'user');
 
-            return view('posts.index', compact('posts')); 
+            return view('posts.index', [
+                'posts' => $posts,
+                'category_id' => $q['category_id']
+            ]);
 
         } else {
             $posts = Post::latest()->paginate(5);
@@ -114,9 +117,15 @@ class PostController extends Controller
     {
         $posts = Post::where('title', 'like', "%{$request->search}%")
             ->orWhere('content', 'like', "%{$request->search}%")
-            ->paginate(5);
+            ->paginate(3);
 
+
+
+            $search_result = $request->search.'の検索結果'.$posts->total().'件';
             
-            return view('posts.index', compact('posts')); 
+            return view('posts.index', [
+                'posts' => $posts,
+                'search_result' => $search_result
+            ]);
     }
 }
