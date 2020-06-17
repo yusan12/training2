@@ -8,7 +8,7 @@
                 <h5 class="card-title">検索フォーム</h5>
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <form action="{{ route('posts.search') }}" method="POST">
+                        <form action="{{ route('posts.search') }}" method="get">
                             @csrf
                             <input type="text" class="form-control input-lg" placeholder="Buscar" name="search">
                             <span class="input-group-btn" style="position: relative;top: -37px;right: -174px;">
@@ -58,6 +58,9 @@
 
 @if(isset($category_id))
         {{ $posts->appends(['category_id' => $category_id])->links() }}
+@elseif(isset($search_query))
+    {{ $posts->appends(['search' => $search_query])->links() }}
+
 @else
     {{ $posts->links() }}
 @endif
