@@ -24,4 +24,9 @@ class Post extends Model
         // 投稿は一つのカテゴリーに属する
         return $this->hasMany(\App\Comment::class,'post_id', 'id');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(\App\Tag::class);
+    }
 }
