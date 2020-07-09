@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -65,10 +66,16 @@ class PostController extends Controller
         $post->content = $request->content;
         $post->title = $request->title;
 
-        
+        //contentからtagを抽出
         preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $request->content, $match);
 
-        dd($match[1]);
+        $tags = [];
+        foreach ($match[1] as $tag) {
+            $found = Tag::firstOrCreate(['tag_name' => $tag]);
+
+            array_push($tags, $found);
+        }
+        dd($tags);
 
         return redirect()->route('posts.index');
     }
