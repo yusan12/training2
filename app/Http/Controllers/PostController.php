@@ -75,7 +75,15 @@ class PostController extends Controller
 
             array_push($tags, $found);
         }
-        dd($tags);
+        
+        $tag_ids = [];
+
+        foreach ($tags as $tag) {
+            array_push($tag_ids, $tag['id']);
+        }
+
+        $post->save();
+        $post->tags()->attach($tag_ids);
 
         return redirect()->route('posts.index');
     }
