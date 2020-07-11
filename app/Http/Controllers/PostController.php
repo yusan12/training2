@@ -20,8 +20,19 @@ class PostController extends Controller
         $q = \Request::query();
 
         if(isset($q['category_id'])){
-            $posts = Post::latest()->where('category_id', $q['category_id'])->paginate(5);
+            $posts = Post::latest()->where('category_id', $q['category_id'])->paginate(3);
             $posts->load('category', 'user');
+            $posts->load('category', 'user', 'tags');
+
+            return view('posts.index', [
+                'posts' => $posts,
+                'category_id' => $q['category_id']
+            ]);
+
+        } if(isset($q['category_id'])){
+            $posts = Post::latest()->where('category_id', $q['category_id'])->paginate(3);
+            $posts->load('category', 'user');
+            $posts->load('category', 'user', 'tags');
 
             return view('posts.index', [
                 'posts' => $posts,
@@ -29,8 +40,8 @@ class PostController extends Controller
             ]);
 
         } else {
-            $posts = Post::latest()->paginate(5);
-            $posts->load('category', 'user');
+            $posts = Post::latest()->paginate(3);
+            $posts->load('category', 'user', 'tags');
 
             return view('posts.index', compact('posts')); 
 

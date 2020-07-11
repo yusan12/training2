@@ -45,6 +45,15 @@
                         {{ $post->category->category_name }}
                     </a>
                 </h5>
+
+                <h5 class="card-title">
+                    Tag:
+                    @foreach($post->tags as $tag)
+                        <a href="{{ route('posts.index', ['tag_name' => $tag->tag_name]) }}">
+                            #{{ $tag->tag_name }}
+                        </a>
+                    @endforeach
+                </h5>
                 <h5 class="card-title">
                     投稿者:
                     <a href="{{ route('users.show', $post->user_id) }}">{{ $post->user->name }}</a>
