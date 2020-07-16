@@ -20,7 +20,7 @@
                       </ul>
                   </div>
               @endif
-              <form action="{{ route("posts.store") }}" method="POST">
+              <form action="{{ route("posts.store") }}" method="POST" enctype="multipart/form-data">
                   {{ csrf_field() }}
 
                 <div class="form-group">
@@ -37,7 +37,10 @@
                     <option value="3">travel</option>
                   </select>
                 </div>
-
+                <div class="form-group">
+                  <label for="image">画像</label>
+                  <input type="file" class="form-control-file" id="image" name="image">
+                </div>
                 <div class="form-group">
                   <label for="comment">Comment:</label>
                   <textarea class="form-control" rows="5" id="comment" name="content"></textarea>
