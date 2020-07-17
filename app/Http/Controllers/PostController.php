@@ -76,6 +76,19 @@ class PostController extends Controller
         $post->content = $request->content;
         $post->title = $request->title;
 
+        if ($image = $request->file('image')) {
+            $image_path = $image->getRealPath();
+            Cloudder::upload($image_path, null);
+            //直前にアップロードされた画像のpublicIdを取得する。
+            $publicId = Cloudder::getPublicId();
+            $logoUrl = Cloudder::show($publicId, [
+                'width'    =>200,
+                'height'   =>200
+            ]);
+            $post->image_path = $logoUrl;
+            $post->public_id  = $publicId;
+        }
+
         //contentからtagを抽出
         preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $request->content, $match);
 
