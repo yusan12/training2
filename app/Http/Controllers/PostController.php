@@ -7,6 +7,7 @@ use App\Http\Requests\PostRequest;
 
 use App\Post;
 use App\Tag;
+use JD\Cloudder\Facades\Cloudder;
 
 class PostController extends Controller
 {
@@ -81,9 +82,9 @@ class PostController extends Controller
             Cloudder::upload($image_path, null);
             //直前にアップロードされた画像のpublicIdを取得する。
             $publicId = Cloudder::getPublicId();
-            $logoUrl = Cloudder::show($publicId, [
-                'width'    =>200,
-                'height'   =>200
+            $logoUrl = Cloudder::secureShow($publicId, [
+                'width'     => 200,
+                'height'    => 200
             ]);
             $post->image_path = $logoUrl;
             $post->public_id  = $publicId;
