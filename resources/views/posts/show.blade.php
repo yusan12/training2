@@ -18,6 +18,7 @@
                 <h5 class="card-title">
                       投稿者:{{ $post->user->name }}
                 </h5>
+                <img src="{{ $post->image_path }}" alt="画像">
 
                 <p class="card-text">{{ $post->content }}</p>
               </div>
