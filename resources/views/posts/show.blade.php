@@ -21,6 +21,7 @@
                 <img src="{{ $post->image_path }}" alt="画像">
 
                 <p class="card-text">{{ $post->content }}</p>
+                <a href="{{ route('posts.edit',$post->id) }}" class="btn btn-primary">編集画面へ</a>
               </div>
             </div>
 

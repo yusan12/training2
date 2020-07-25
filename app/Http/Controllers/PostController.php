@@ -131,9 +131,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($post)
     {
-        //
+        // $post->load('category', 'user', 'comments.user');
+
+        $post = Post::find($post);
+
+        return view('posts.edit', compact('post')); 
     }
 
     /**
@@ -143,9 +147,48 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
-        //
+        $post = Post::find($id);
+        // $input = $request->only($post->getFillable());
+        
+        $post->category_id = $request->category_id;
+        $post->content = $request->content;
+        $post->title = $request->title;
+
+        if ($image = $request->file('image')) {
+            $image_path = $image->getRealPath();
+            Cloudder::upload($image_path, null);
+            //直前にアップロードされた画像のpublicIdを取得する。
+            $publicId = Cloudder::getPublicId();
+            $logoUrl = Cloudder::secureShow($publicId, [
+                'width'     => 200,
+                'height'    => 200
+            ]);
+            $post->image_path = $logoUrl;
+            $post->public_id  = $publicId;
+        }
+
+        //contentからtagを抽出
+        preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $request->content, $match);
+
+        $tags = [];
+        foreach ($match[1] as $tag) {
+            $found = Tag::firstOrCreate(['tag_name' => $tag]);
+
+            array_push($tags, $found);
+        }
+        
+        $tag_ids = [];
+
+        foreach ($tags as $tag) {
+            array_push($tag_ids, $tag['id']);
+        }
+
+        $post->save();
+        $post->tags()->attach($tag_ids);
+
+        return redirect()->route('posts.index');
     }
 
     /**
