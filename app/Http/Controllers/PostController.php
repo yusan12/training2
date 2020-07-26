@@ -8,6 +8,7 @@ use App\Http\Requests\PostRequest;
 use App\Post;
 use App\Tag;
 use JD\Cloudder\Facades\Cloudder;
+use Auth;
 
 class PostController extends Controller
 {
@@ -150,6 +151,10 @@ class PostController extends Controller
     public function update(PostRequest $request, $id)
     {
         $post = Post::find($id);
+
+        if( Auth::id() !== $post->user_id ){
+            return abort(404);
+        }
         // $input = $request->only($post->getFillable());
         
         $post->category_id = $request->category_id;
@@ -199,6 +204,15 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        $post = Post::find($id);
+
+        if( Auth::id() !== $post->user_id ){
+            return abort(404);
+        }
+
+        $post->delete();
+
+        return redirect()->route('posts.index');
         
     }
     
