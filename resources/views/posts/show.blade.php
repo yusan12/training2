@@ -21,12 +21,14 @@
                 <img src="{{ $post->image_path }}" alt="画像">
 
                 <p class="card-text">{{ $post->content }}</p>
+                @if( $post->user_id === Auth::id() )
                 <a href="{{ route('posts.edit',$post->id) }}" class="btn btn-primary">編集画面へ</a>
                 <form action="{{ route('posts.destroy', $post->id) }}" method='post'>
                   {{ csrf_field() }}
                   {{ method_field('DELETE') }}
                   <input type="submit" value='削除' class="btn btn-danger" onclick='return confirm("削除しますか？");'>
                 </form>
+                @endif
               </div>
             </div>
 

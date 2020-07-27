@@ -138,6 +138,10 @@ class PostController extends Controller
 
         $post = Post::find($post);
 
+        if( Auth::id() !== $post->user_id ){
+            return abort(404);
+        }
+
         return view('posts.edit', compact('post')); 
     }
 
