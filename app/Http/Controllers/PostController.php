@@ -214,6 +214,8 @@ class PostController extends Controller
             return abort(404);
         }
 
+        Cloudder::destroyImage($post->public_id);
+
         $post->delete();
 
         return redirect()->route('posts.index');
